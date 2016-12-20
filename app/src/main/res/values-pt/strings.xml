@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="languague">pt</string>
+    <string name="country">BR</string>
+
+    <string name="app_name">Filmes pupulares</string>
+    <string name="pref_category_title_general">Geral</string>
+    <string name="pref_label_sort_order">Ordem de classificação</string>
+    <string name="sort_oder_label_popular">Popular</string>
+    <string name="sort_oder_label_top_rated">Mais votado</string>
+    <string name="settings">Configurações</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="title_activity_movie_detail">Detalhes do filme</string>
+    <string name="synopsis_label">Sinopse:</string>
+    <string name="rating_label">Avaliação do usuário:</string>
+
+</resources>
