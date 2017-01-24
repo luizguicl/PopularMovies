@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.luizguilherme.popularmovies.Constants;
 import com.luizguilherme.popularmovies.FetchPopularMoviesTask;
-import com.luizguilherme.popularmovies.Movie;
-import com.luizguilherme.popularmovies.MoviesAdapter;
+import com.luizguilherme.popularmovies.models.Movie;
+import com.luizguilherme.popularmovies.adapters.MoviesAdapter;
 import com.luizguilherme.popularmovies.R;
 import com.luizguilherme.popularmovies.activities.MovieDetailActivity;
 import com.luizguilherme.popularmovies.activities.SettingsActivity;

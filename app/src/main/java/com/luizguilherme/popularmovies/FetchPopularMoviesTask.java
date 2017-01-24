@@ -8,18 +8,18 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.luizguilherme.popularmovies.models.Movie;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.luizguilherme.popularmovies.Constants.APPID_PARAM;
+import static com.luizguilherme.popularmovies.Constants.LANGUAGE_PARAM;
+import static com.luizguilherme.popularmovies.Constants.MOVIES_BASE_URL;
 
 public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
 
@@ -36,74 +36,19 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
     @Override
     protected List<Movie> doInBackground(Void... voids) {
 
-        HttpURLConnection urlConnection = null;
-        BufferedReader reader = null;
+        String sortingPath = getSortingPathAccordingToSettings();
+
+        // Construct the URL for the MovieDatabase api request
+        Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
+                .appendEncodedPath(sortingPath)
+                .appendQueryParameter(LANGUAGE_PARAM, context.getString(R.string.languague))
+                .appendQueryParameter(APPID_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                .build();
 
         // Will contain the raw JSON response as a string.
-        String popularMoviesJsonStr = null;
+        String popularMoviesJsonStr = HttpUtils.makeRequestFromUri(builtUri);
 
-        try {
-
-            // Construct the URL for the MovieDatabase api request
-            final String MOVIES_BASE_URL = "http://api.themoviedb.org/3/movie/";
-            final String LANGUAGE_PARAM = "language";
-            final String APPID_PARAM = "api_key";
-
-            String sortingPath = getSortingPathAccordingToSettings();
-
-            Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
-                    .appendEncodedPath(sortingPath)
-                    .appendQueryParameter(LANGUAGE_PARAM, context.getString(R.string.languague))
-                    .appendQueryParameter(APPID_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                    .build();
-
-            URL url = new URL(builtUri.toString());
-
-            Log.d(TAG, "Built URI " + builtUri.toString());
-
-            // Create the request to TheMovieDatabase API, and open the connection
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            // Read the input stream into a String
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                // Nothing to do.
-                return null;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                buffer.append(line + "\n");
-            }
-
-            if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
-                return null;
-            }
-            popularMoviesJsonStr = buffer.toString();
-        } catch (IOException e) {
-            Log.e(TAG, "Error ", e);
-
-            return null;
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (final IOException e) {
-                    Log.e(TAG, "Error closing stream", e);
-                }
-            }
-        }
+        if (popularMoviesJsonStr == null) return null;
 
         try {
             return getMovieDataFromJson(popularMoviesJsonStr);

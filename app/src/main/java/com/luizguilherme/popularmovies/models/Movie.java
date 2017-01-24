@@ -1,4 +1,4 @@
-package com.luizguilherme.popularmovies;
+package com.luizguilherme.popularmovies.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

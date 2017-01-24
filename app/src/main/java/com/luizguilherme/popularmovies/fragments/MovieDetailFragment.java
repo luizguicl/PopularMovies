@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.luizguilherme.popularmovies.Constants;
-import com.luizguilherme.popularmovies.Movie;
+import com.luizguilherme.popularmovies.adapters.TrailersAdapter;
+import com.luizguilherme.popularmovies.models.Movie;
 import com.luizguilherme.popularmovies.R;
+import com.luizguilherme.popularmovies.models.Trailer;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -37,6 +41,8 @@ public class MovieDetailFragment extends Fragment {
     TextView userRating;
     @BindView(R.id.overview)
     TextView overview;
+    @BindView(R.id.trailer_list)
+    ListView trailerList;
 
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
 
@@ -80,6 +86,9 @@ public class MovieDetailFragment extends Fragment {
         releaseDate.setText(formattedDate);
         userRating.setText(String.format(new Locale(getString(R.string.languague), getString(R.string.country)), "%.2f", movie.getVoteAverage()));
         overview.setText(movie.getOverview());
+
+        TrailersAdapter trailersAdapter = new TrailersAdapter(this.getActivity(), new ArrayList<Trailer>());
+        trailerList.setAdapter(trailersAdapter);
 
         return rootView;
     }
