@@ -1,6 +1,8 @@
 package com.luizguilherme.popularmovies.models;
 
-public class Trailer {
+import com.luizguilherme.popularmovies.adapters.MovieDetailType;
+
+public class Trailer implements MovieDetailType {
 
     private String id;
     private String key;
@@ -66,4 +68,8 @@ public class Trailer {
         this.type = type;
     }
 
+    @Override
+    public DetailType getMovieDetailType() {
+        return DetailType.TRAILER;
+    }
 }

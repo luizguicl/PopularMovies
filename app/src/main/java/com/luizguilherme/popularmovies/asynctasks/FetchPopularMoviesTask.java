@@ -1,4 +1,4 @@
-package com.luizguilherme.popularmovies;
+package com.luizguilherme.popularmovies.asynctasks;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.luizguilherme.popularmovies.BuildConfig;
+import com.luizguilherme.popularmovies.Constants;
+import com.luizguilherme.popularmovies.HttpUtils;
+import com.luizguilherme.popularmovies.R;
 import com.luizguilherme.popularmovies.models.Movie;
 
 import org.json.JSONArray;

@@ -13,6 +13,9 @@ public class Constants {
 
     public static final String MOVIEDB_POPULAR_PATH = "popular";
     public static final String MOVIEDB_TOP_RATED_PATH = "top_rated";
+    public static final String MOVIEDB_VIDEOS_PATH = "videos";
+    public static final String MOVIEDB_REVIEWS_PATH = "reviews";
+
 
     public static final String YOUTUBE_WATCH_BASE_URL = "https://www.youtube.com/watch";
     public static final String YOUTUBE_VIDEO_PARAMETER = "v";

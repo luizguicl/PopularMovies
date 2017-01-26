@@ -7,46 +7,36 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luizguilherme.popularmovies.Constants;
-import com.luizguilherme.popularmovies.adapters.TrailersAdapter;
-import com.luizguilherme.popularmovies.models.Movie;
+import com.luizguilherme.popularmovies.asynctasks.FetchReviewsByMovieTask;
+import com.luizguilherme.popularmovies.asynctasks.FetchTrailersByMovieTask;
 import com.luizguilherme.popularmovies.R;
-import com.luizguilherme.popularmovies.models.Trailer;
-import com.squareup.picasso.Picasso;
+import com.luizguilherme.popularmovies.adapters.MovieDetailAdapter;
+import com.luizguilherme.popularmovies.adapters.MovieDetailType;
+import com.luizguilherme.popularmovies.models.AndroidUtils;
+import com.luizguilherme.popularmovies.models.Movie;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.luizguilherme.popularmovies.Constants.MOVIEDB_IMAGE_BASE_URL;
-import static com.luizguilherme.popularmovies.Constants.POSTER_SIZE_DETAIL;
-
 
 public class MovieDetailFragment extends Fragment {
 
-    @BindView(R.id.movie_poster)
-    ImageView moviePoster;
-    @BindView(R.id.original_title)
-    TextView originalTitle;
-    @BindView(R.id.release_date)
-    TextView releaseDate;
-    @BindView(R.id.user_rating)
-    TextView userRating;
-    @BindView(R.id.overview)
-    TextView overview;
-    @BindView(R.id.trailer_list)
-    ListView trailerList;
-
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
 
+    @BindView(R.id.movie_detail_list)
+    ListView movieDetailList;
+
     private Unbinder unbinder;
+    private Movie movie;
+
+    private MovieDetailAdapter movieDetailsAdapter;
 
     public MovieDetailFragment() {
     }
@@ -64,8 +54,6 @@ public class MovieDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
-        Movie movie = null;
-
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(Constants.EXTRA_MOVIE)) {
             movie = intent.getParcelableExtra(Constants.EXTRA_MOVIE);
@@ -74,23 +62,30 @@ public class MovieDetailFragment extends Fragment {
             return rootView;
         }
 
-        String imageUrl = MOVIEDB_IMAGE_BASE_URL + POSTER_SIZE_DETAIL + movie.getPosterPath();
+        movieDetailsAdapter = new MovieDetailAdapter(this.getActivity(), new ArrayList<MovieDetailType>());
 
-        Picasso.with(getContext())
-                .load(imageUrl)
-                .placeholder(R.mipmap.placeholder_movie_poster)
-                .error(R.mipmap.placeholder_movie_poster)
-                .into(moviePoster);
-        originalTitle.setText(movie.getOriginalTitle());
-        String formattedDate = String.format("(%s)", movie.getReleaseDate());
-        releaseDate.setText(formattedDate);
-        userRating.setText(String.format(new Locale(getString(R.string.languague), getString(R.string.country)), "%.2f", movie.getVoteAverage()));
-        overview.setText(movie.getOverview());
 
-        TrailersAdapter trailersAdapter = new TrailersAdapter(this.getActivity(), new ArrayList<Trailer>());
-        trailerList.setAdapter(trailersAdapter);
+        movieDetailList.setAdapter(movieDetailsAdapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        movieDetailsAdapter.clear();
+        movieDetailsAdapter.add(movie);
+
+        if (AndroidUtils.isOnline(getActivity())) {
+            FetchTrailersByMovieTask trailersTask = new FetchTrailersByMovieTask(getActivity(), movieDetailsAdapter );
+            trailersTask.execute(String.valueOf(movie.getId()));
+
+            FetchReviewsByMovieTask reviewsTask = new FetchReviewsByMovieTask(getActivity(), movieDetailsAdapter );
+            reviewsTask.execute(String.valueOf(movie.getId()));
+        } else {
+            Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -98,4 +93,5 @@ public class MovieDetailFragment extends Fragment {
         unbinder.unbind();
         super.onDestroyView();
     }
+
 }

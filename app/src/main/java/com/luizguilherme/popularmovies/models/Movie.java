@@ -3,7 +3,9 @@ package com.luizguilherme.popularmovies.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie implements Parcelable {
+import com.luizguilherme.popularmovies.adapters.MovieDetailType;
+
+public class Movie implements Parcelable, MovieDetailType {
 
     private int id;
     private String originalTitle;
@@ -81,6 +83,11 @@ public class Movie implements Parcelable {
 
     public double getVoteAverage() {
         return voteAverage;
+    }
+
+    @Override
+    public DetailType getMovieDetailType() {
+        return DetailType.OVERVIEW;
     }
 
 }

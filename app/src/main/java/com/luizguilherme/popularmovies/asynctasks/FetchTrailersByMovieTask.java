@@ -1,11 +1,14 @@
-package com.luizguilherme.popularmovies;
+package com.luizguilherme.popularmovies.asynctasks;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
+import com.luizguilherme.popularmovies.BuildConfig;
+import com.luizguilherme.popularmovies.HttpUtils;
+import com.luizguilherme.popularmovies.adapters.MovieDetailAdapter;
+import com.luizguilherme.popularmovies.models.Label;
 import com.luizguilherme.popularmovies.models.Trailer;
 
 import org.json.JSONArray;
@@ -16,18 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.luizguilherme.popularmovies.Constants.APPID_PARAM;
-import static com.luizguilherme.popularmovies.Constants.LANGUAGE_PARAM;
+import static com.luizguilherme.popularmovies.Constants.MOVIEDB_VIDEOS_PATH;
 import static com.luizguilherme.popularmovies.Constants.MOVIES_BASE_URL;
 
 public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trailer>> {
 
     private static final String TAG = FetchTrailersByMovieTask.class.getSimpleName();
     private final Context context;
-    private final ArrayAdapter<String> adapter;
+    private final MovieDetailAdapter adapter;
 
-    public FetchTrailersByMovieTask(Context context, ArrayAdapter<String> adapter) {
+    public FetchTrailersByMovieTask(Context context, MovieDetailAdapter movieDetailsAdapter) {
         this.context = context;
-        this.adapter = adapter;
+        this.adapter = movieDetailsAdapter;
     }
 
     @Override
@@ -38,8 +41,7 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
         // Construct the URL for the MovieDatabase api request
         Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
                 .appendPath(movieId)
-                .appendPath("videos")
-                .appendQueryParameter(LANGUAGE_PARAM, context.getString(R.string.languague))
+                .appendPath(MOVIEDB_VIDEOS_PATH)
                 .appendQueryParameter(APPID_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
                 .build();
 
@@ -64,8 +66,8 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
             return;
         }
 
-        adapter.clear();
-//        adapter.addAll(result);
+        adapter.add(new Label("Trailers:"));
+        adapter.addAll(result);
     }
 
     private List<Trailer> getTrailersDataFromJson(String movieTrailersJsonStr) throws JSONException {

@@ -1,9 +1,6 @@
 package com.luizguilherme.popularmovies.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,12 +14,13 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.luizguilherme.popularmovies.Constants;
-import com.luizguilherme.popularmovies.FetchPopularMoviesTask;
-import com.luizguilherme.popularmovies.models.Movie;
-import com.luizguilherme.popularmovies.adapters.MoviesAdapter;
+import com.luizguilherme.popularmovies.asynctasks.FetchPopularMoviesTask;
 import com.luizguilherme.popularmovies.R;
 import com.luizguilherme.popularmovies.activities.MovieDetailActivity;
 import com.luizguilherme.popularmovies.activities.SettingsActivity;
+import com.luizguilherme.popularmovies.adapters.MoviesAdapter;
+import com.luizguilherme.popularmovies.models.AndroidUtils;
+import com.luizguilherme.popularmovies.models.Movie;
 
 import java.util.ArrayList;
 
@@ -34,10 +32,10 @@ import butterknife.Unbinder;
 
 public class MoviesFragment extends Fragment {
 
-    @BindView(R.id.moviesList)
-    GridView listView;
-
     private final String TAG = MoviesFragment.class.getSimpleName();
+
+    @BindView(R.id.movies_list)
+    GridView listView;
 
     private MoviesAdapter moviesAdapter;
     private Unbinder unbinder;
@@ -71,7 +69,7 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (isOnline()) {
+        if (AndroidUtils.isOnline(getActivity())) {
             FetchPopularMoviesTask moviesTask = new FetchPopularMoviesTask(getActivity(), moviesAdapter);
             moviesTask.execute();
         } else {
@@ -104,19 +102,12 @@ public class MoviesFragment extends Fragment {
 
     }
 
-    @OnItemClick(R.id.moviesList)
+    @OnItemClick(R.id.movies_list)
     void onItemClicked(int position) {
         Movie movie = moviesAdapter.getItem(position);
         Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
         intent.putExtra(Constants.EXTRA_MOVIE, movie);
         startActivity(intent);
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }
