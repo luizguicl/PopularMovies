@@ -27,10 +27,12 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
     private static final String TAG = FetchTrailersByMovieTask.class.getSimpleName();
     private final Context context;
     private final MovieDetailAdapter adapter;
+    private FinishTrailerTaskListener listener;
 
-    public FetchTrailersByMovieTask(Context context, MovieDetailAdapter movieDetailsAdapter) {
+    public FetchTrailersByMovieTask(Context context, MovieDetailAdapter movieDetailsAdapter, FinishTrailerTaskListener listener) {
         this.context = context;
         this.adapter = movieDetailsAdapter;
+        this.listener = listener;
     }
 
     @Override
@@ -65,6 +67,8 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
         if (result == null || adapter == null) {
             return;
         }
+
+        listener.OnFinishTask(result);
 
         adapter.add(new Label("Trailers:"));
         adapter.addAll(result);
@@ -105,6 +109,10 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
         }
 
         return trailersResult;
+    }
+
+    public interface FinishTrailerTaskListener {
+        void OnFinishTask(List<Trailer> trailers);
     }
 
 

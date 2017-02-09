@@ -17,5 +17,6 @@
     <string name="is_favorite">Favorito</string>
     <string name="mark_favorite_sucess_message">Marcado como favorito!</string>
     <string name="unmark_favorite_sucess_message">Desmarcado como favorito!</string>
+    <string name="share_trailer">Compartilhar Trailer</string>
 
 </resources>

@@ -26,6 +26,7 @@
     <string name="is_favorite">Bookmarked</string>
     <string name="mark_favorite_sucess_message">Marked as favorite!</string>
     <string name="unmark_favorite_sucess_message">Unmarked as favorite!</string>
+    <string name="share_trailer">Share Trailer</string>
 
 
 </resources>
