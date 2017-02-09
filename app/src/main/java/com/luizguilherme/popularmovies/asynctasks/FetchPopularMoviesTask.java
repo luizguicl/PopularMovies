@@ -1,7 +1,9 @@
 package com.luizguilherme.popularmovies.asynctasks;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -19,11 +21,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.luizguilherme.popularmovies.Constants.APPID_PARAM;
 import static com.luizguilherme.popularmovies.Constants.LANGUAGE_PARAM;
 import static com.luizguilherme.popularmovies.Constants.MOVIES_BASE_URL;
+import static com.luizguilherme.popularmovies.data.MoviesContract.MovieEntry;
 
 public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
 
@@ -40,26 +44,72 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
     @Override
     protected List<Movie> doInBackground(Void... voids) {
 
-        String sortingPath = getSortingPathAccordingToSettings();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String prefSortOrder = preferences.getString(context.getString(R.string.pref_key_sort_order)
+                , context.getString(R.string.pref_default_sort_order));
 
-        // Construct the URL for the MovieDatabase api request
-        Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
-                .appendEncodedPath(sortingPath)
-                .appendQueryParameter(LANGUAGE_PARAM, context.getString(R.string.languague))
-                .appendQueryParameter(APPID_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
-                .build();
 
-        // Will contain the raw JSON response as a string.
-        String popularMoviesJsonStr = HttpUtils.makeRequestFromUri(builtUri);
+        if (context.getString(R.string.sort_oder_value_favorite).equalsIgnoreCase(prefSortOrder)) {
+            List<Movie> favoriteMovies = new ArrayList<>();
 
-        if (popularMoviesJsonStr == null) return null;
+            ContentResolver contentResolver = context.getContentResolver();
 
-        try {
-            return getMovieDataFromJson(popularMoviesJsonStr);
-        } catch (JSONException e) {
-            Log.e(TAG, e.getMessage(), e);
-            e.printStackTrace();
+            Cursor movieCursor = contentResolver.query(MovieEntry.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            // If it exists, return the current ID
+            while (movieCursor.moveToNext()) {
+
+                int indexMovieId = movieCursor.getColumnIndex(MovieEntry.COLUMN_EXTERNAL_ID);
+                int movieId = movieCursor.getInt(indexMovieId);
+                int indexOriginalTitle = movieCursor.getColumnIndex(MovieEntry.COLUMN_ORIGINAL_TITLE);
+                String originalTitle = movieCursor.getString(indexOriginalTitle);
+                int indexOverview = movieCursor.getColumnIndex(MovieEntry.COLUMN_OVERVIEW);
+                String overview = movieCursor.getString(indexOverview);
+                int indexPosterPath = movieCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH);
+                String posterPath = movieCursor.getString(indexPosterPath);
+                int indexReleaseDate = movieCursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_DATE);
+                int releaseDate = movieCursor.getInt(indexReleaseDate);
+                int indexVoteAverage = movieCursor.getColumnIndex(MovieEntry.COLUMN_VOTE_AVERAGE);
+                double voteAverage = movieCursor.getDouble(indexVoteAverage);
+
+
+                Movie movie = new Movie(movieId, originalTitle, posterPath, overview, voteAverage, new Date(releaseDate).toString());
+
+                favoriteMovies.add(movie);
+
+            }
+
+            movieCursor.close();
+
+            return favoriteMovies;
+
+        } else {
+            String sortingPath = getSortingPathAccordingToSettings(prefSortOrder);
+
+            // Construct the URL for the MovieDatabase api request
+            Uri builtUri = Uri.parse(MOVIES_BASE_URL).buildUpon()
+                    .appendEncodedPath(sortingPath)
+                    .appendQueryParameter(LANGUAGE_PARAM, context.getString(R.string.languague))
+                    .appendQueryParameter(APPID_PARAM, BuildConfig.THE_MOVIE_DB_API_KEY)
+                    .build();
+
+            // Will contain the raw JSON response as a string.
+            String popularMoviesJsonStr = HttpUtils.makeRequestFromUri(builtUri);
+
+            if (popularMoviesJsonStr == null) return null;
+
+            try {
+                return getMovieDataFromJson(popularMoviesJsonStr);
+            } catch (JSONException e) {
+                Log.e(TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
         }
+
 
         return null;
     }
@@ -74,11 +124,7 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         adapter.addAll(result);
     }
 
-    private String getSortingPathAccordingToSettings() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String prefSortOrder = preferences.getString(context.getString(R.string.pref_key_sort_order)
-                , context.getString(R.string.pref_default_sort_order));
-
+    private String getSortingPathAccordingToSettings(String prefSortOrder) {
         if (context.getString(R.string.sort_oder_value_popular).equalsIgnoreCase(prefSortOrder)) {
             return Constants.MOVIEDB_POPULAR_PATH;
         } else {

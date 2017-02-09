@@ -15,7 +15,7 @@
         android:scaleType="fitCenter"
         android:background="@null"
 
-        android:src="@mipmap/ic_play_circle_filled_black_24dp" />
+        android:src="@drawable/ic_play_circle_filled_black_24dp" />
 
     <TextView
         android:id="@+id/trailer_name"

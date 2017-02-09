@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,7 +24,7 @@
         android:adjustViewBounds="true"
         android:padding="4dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/placeholder_movie_poster" />
+        app:srcCompat="@drawable/placeholder_movie_poster" />
 
 
     <TextView
@@ -57,14 +58,16 @@
         android:padding="4dp"
         tools:text="8.1/10" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/favorite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_rating"
         android:layout_toEndOf="@id/movie_poster"
         android:layout_toRightOf="@id/movie_poster"
-        android:textAllCaps="true"
-        tools:text="Mark as favorite" />
+        android:contentDescription="@string/mark_as_favorite"
+        android:background="@null"
+        android:src="@drawable/image_list_favorite" />
 
     <TextView
         android:id="@+id/overview"
@@ -73,5 +76,15 @@
         android:layout_below="@+id/movie_poster"
         android:layout_marginTop="8dp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
+
+    <TextView
+        android:id="@+id/favorite_action_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/mark_as_favorite"
+        android:layout_marginBottom="13dp"
+        android:layout_alignBottom="@+id/favorite_button"
+        android:layout_alignRight="@+id/release_date"
+        android:layout_alignEnd="@+id/release_date" />
 
 </RelativeLayout>

@@ -1,8 +1,12 @@
 <resources>
+
+    <string name="content_authority">com.luizguilherme.popularmovies</string>
+
     <string name="pref_default_sort_order" translatable="false">@string/sort_oder_value_popular</string>
     <string name="pref_key_sort_order" translatable="false">sortOrder</string>
     <string name="sort_oder_value_popular" translatable="false">popular</string>
     <string name="sort_oder_value_top_rated" translatable="false">topRated</string>
+    <string name="sort_oder_value_favorite" translatable="false">favorite</string>
 
     <string name="languague">en-US</string>
     <string name="country">US</string>
@@ -12,10 +16,16 @@
     <string name="pref_label_sort_order">Sort order</string>
     <string name="sort_oder_label_popular">Popular</string>
     <string name="sort_oder_label_top_rated">Top Rated</string>
+    <string name="sort_oder_label_favorite">Favorite</string>
     <string name="settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_movie_detail">Movie Detail</string>
     <string name="synopsis_label">Synopsis:</string>
     <string name="rating_label">User rating:</string>
+    <string name="mark_as_favorite">Bookmark</string>
+    <string name="is_favorite">Bookmarked</string>
+    <string name="mark_favorite_sucess_message">Marked as favorite!</string>
+    <string name="unmark_favorite_sucess_message">Unmarked as favorite!</string>
+
 
 </resources>

@@ -13,5 +13,9 @@
     <string name="title_activity_movie_detail">Detalhes do filme</string>
     <string name="synopsis_label">Sinopse:</string>
     <string name="rating_label">Avaliação do usuário:</string>
+    <string name="mark_as_favorite">Favoritar</string>
+    <string name="is_favorite">Favorito</string>
+    <string name="mark_favorite_sucess_message">Marcado como favorito!</string>
+    <string name="unmark_favorite_sucess_message">Desmarcado como favorito!</string>
 
 </resources>
