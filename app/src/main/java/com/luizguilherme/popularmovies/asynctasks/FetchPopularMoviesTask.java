@@ -8,12 +8,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.luizguilherme.popularmovies.BuildConfig;
 import com.luizguilherme.popularmovies.Constants;
 import com.luizguilherme.popularmovies.HttpUtils;
 import com.luizguilherme.popularmovies.R;
+import com.luizguilherme.popularmovies.adapters.MoviesAdapter;
 import com.luizguilherme.popularmovies.models.Movie;
 
 import org.json.JSONArray;
@@ -34,9 +34,9 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
     private final String TAG = FetchPopularMoviesTask.class.getSimpleName();
 
     private Context context;
-    private ArrayAdapter<Movie> adapter;
+    private MoviesAdapter adapter;
 
-    public FetchPopularMoviesTask(Context context, ArrayAdapter<Movie> adapter) {
+    public FetchPopularMoviesTask(Context context, MoviesAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
     }
@@ -119,9 +119,7 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
         if (result == null || adapter == null) {
             return;
         }
-
-        adapter.clear();
-        adapter.addAll(result);
+        adapter.addItems(result);
     }
 
     private String getSortingPathAccordingToSettings(String prefSortOrder) {

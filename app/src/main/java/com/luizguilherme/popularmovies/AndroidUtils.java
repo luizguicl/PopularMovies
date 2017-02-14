@@ -1,4 +1,4 @@
-package com.luizguilherme.popularmovies.models;
+package com.luizguilherme.popularmovies;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -4,29 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.Toast;
 
-import com.luizguilherme.popularmovies.Constants;
-import com.luizguilherme.popularmovies.asynctasks.FetchPopularMoviesTask;
 import com.luizguilherme.popularmovies.R;
-import com.luizguilherme.popularmovies.activities.MovieDetailActivity;
 import com.luizguilherme.popularmovies.activities.SettingsActivity;
 import com.luizguilherme.popularmovies.adapters.MoviesAdapter;
-import com.luizguilherme.popularmovies.models.AndroidUtils;
+import com.luizguilherme.popularmovies.asynctasks.FetchPopularMoviesTask;
+import com.luizguilherme.popularmovies.AndroidUtils;
 import com.luizguilherme.popularmovies.models.Movie;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import butterknife.Unbinder;
 
 
@@ -34,10 +34,14 @@ public class MoviesFragment extends Fragment {
 
     private final String TAG = MoviesFragment.class.getSimpleName();
 
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar toolbar;
+
     @BindView(R.id.movies_list)
-    GridView listView;
+    RecyclerView recyclerView;
 
     private MoviesAdapter moviesAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     private Unbinder unbinder;
 
     public MoviesFragment() {
@@ -56,12 +60,20 @@ public class MoviesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        supportActionBar.setLogo(R.mipmap.ic_launcher);
+
+        layoutManager = new GridLayoutManager(this.getActivity(),2);
+       recyclerView.setLayoutManager(layoutManager);
+
         moviesAdapter = new MoviesAdapter(
-                getActivity(),
                 new ArrayList<Movie>()
         );
 
-        listView.setAdapter(moviesAdapter);
+        recyclerView.setAdapter(moviesAdapter);
 
         return rootView;
     }
@@ -100,14 +112,6 @@ public class MoviesFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    @OnItemClick(R.id.movies_list)
-    void onItemClicked(int position) {
-        Movie movie = moviesAdapter.getItem(position);
-        Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-        intent.putExtra(Constants.EXTRA_MOVIE, movie);
-        startActivity(intent);
     }
 
 }

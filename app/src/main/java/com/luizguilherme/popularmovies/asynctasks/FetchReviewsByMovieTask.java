@@ -8,6 +8,7 @@ import android.util.Log;
 import com.luizguilherme.popularmovies.BuildConfig;
 import com.luizguilherme.popularmovies.HttpUtils;
 import com.luizguilherme.popularmovies.adapters.MovieDetailAdapter;
+import com.luizguilherme.popularmovies.adapters.MovieDetailType;
 import com.luizguilherme.popularmovies.models.Label;
 import com.luizguilherme.popularmovies.models.Review;
 
@@ -66,7 +67,7 @@ public class FetchReviewsByMovieTask extends AsyncTask<String, Void, List<Review
             return;
         }
 
-        adapter.add(new Label("Reviews:"));
+        adapter.addItem(new Label("Reviews:"));
         adapter.addAll(result);
     }
 

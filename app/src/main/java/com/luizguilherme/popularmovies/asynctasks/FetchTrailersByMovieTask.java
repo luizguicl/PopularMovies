@@ -70,7 +70,7 @@ public class FetchTrailersByMovieTask extends AsyncTask<String, Void, List<Trail
 
         listener.OnFinishTask(result);
 
-        adapter.add(new Label("Trailers:"));
+        adapter.addItem(new Label("Trailers:"));
         adapter.addAll(result);
     }
 

@@ -1,14 +1,38 @@
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movies_list"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:horizontalSpacing="4dp"
-    android:numColumns="3"
-    android:stretchMode="columnWidth"
-    android:verticalSpacing="16dp"
-    tools:context="com.luizguilherme.popularmovies.fragments.MoviesFragment"
-    tools:listitem="@layout/item_movie" />
+    tools:context="com.luizguilherme.popularmovies.activities.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <include
+            layout="@layout/toolbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/movies_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.luizguilherme.popularmovies.fragments.MoviesFragment"
+        tools:listitem="@layout/item_movie" />
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
 
 

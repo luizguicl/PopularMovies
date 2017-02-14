@@ -5,6 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.luizguilherme.popularmovies.Constants;
@@ -22,7 +25,7 @@ import com.luizguilherme.popularmovies.adapters.MovieDetailAdapter;
 import com.luizguilherme.popularmovies.adapters.MovieDetailType;
 import com.luizguilherme.popularmovies.asynctasks.FetchReviewsByMovieTask;
 import com.luizguilherme.popularmovies.asynctasks.FetchTrailersByMovieTask;
-import com.luizguilherme.popularmovies.models.AndroidUtils;
+import com.luizguilherme.popularmovies.AndroidUtils;
 import com.luizguilherme.popularmovies.models.Movie;
 import com.luizguilherme.popularmovies.models.Trailer;
 
@@ -41,8 +44,11 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
 
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
 
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar toolbar;
+
     @BindView(R.id.movie_detail_list)
-    ListView movieDetailList;
+    RecyclerView movieDetailList;
 
     private ShareActionProvider shareActionProvider;
 
@@ -50,6 +56,7 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
     private Movie movie;
 
     private MovieDetailAdapter movieDetailsAdapter;
+    private LinearLayoutManager layoutManger;
 
     public MovieDetailFragment() {
     }
@@ -67,6 +74,12 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        supportActionBar.setDisplayShowHomeEnabled(true);
+
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(Constants.EXTRA_MOVIE)) {
             movie = intent.getParcelableExtra(Constants.EXTRA_MOVIE);
@@ -76,8 +89,8 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
         }
 
         movieDetailsAdapter = new MovieDetailAdapter(this.getActivity(), new ArrayList<MovieDetailType>());
-
-
+        layoutManger = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        movieDetailList.setLayoutManager(layoutManger);
         movieDetailList.setAdapter(movieDetailsAdapter);
 
         return rootView;
@@ -88,7 +101,7 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
         super.onStart();
 
         movieDetailsAdapter.clear();
-        movieDetailsAdapter.add(movie);
+        movieDetailsAdapter.addItem(movie);
 
         if (AndroidUtils.isOnline(getActivity())) {
             FetchTrailersByMovieTask trailersTask = new FetchTrailersByMovieTask(getActivity(), movieDetailsAdapter, this);
