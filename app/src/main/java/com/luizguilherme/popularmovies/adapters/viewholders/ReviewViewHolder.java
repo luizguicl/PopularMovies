@@ -25,6 +25,8 @@ public class ReviewViewHolder extends MovieDetailTypeViewHolder {
         final Review review = (Review) movieDetailType;
         author.setText(review.getAuthor());
         content.setText(review.getContent());
+
+        bindActions(movieDetailType);
     }
 
     @Override

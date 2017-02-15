@@ -66,8 +66,8 @@ public class MoviesFragment extends Fragment {
 
         supportActionBar.setLogo(R.mipmap.ic_launcher);
 
-        layoutManager = new GridLayoutManager(this.getActivity(),2);
-       recyclerView.setLayoutManager(layoutManager);
+        layoutManager = new GridLayoutManager(this.getActivity(), 2);
+        recyclerView.setLayoutManager(layoutManager);
 
         moviesAdapter = new MoviesAdapter(
                 new ArrayList<Movie>()

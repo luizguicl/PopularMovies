@@ -26,36 +26,37 @@
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/placeholder_movie_poster" />
 
-
     <TextView
-        android:id="@+id/release_date"
+        android:id="@+id/release_date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/original_title"
         android:layout_toEndOf="@+id/movie_poster"
         android:layout_toRightOf="@+id/movie_poster"
         android:padding="4dp"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        tools:text="(Release date)" />
+        android:text="@string/release_date" />
 
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/release_date"
-        android:layout_toEndOf="@id/movie_poster"
-        android:layout_toRightOf="@id/movie_poster"
+        android:layout_below="@+id/release_date_label"
+        android:layout_toEndOf="@+id/movie_poster"
+        android:layout_toRightOf="@+id/movie_poster"
         android:padding="4dp"
-        tools:text="120m" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="(2016-06-22)" />
 
     <TextView
         android:id="@+id/user_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/duration"
+        android:layout_below="@+id/release_date"
         android:layout_toEndOf="@id/movie_poster"
         android:layout_toRightOf="@id/movie_poster"
-        android:padding="4dp"
+        android:padding="8dp"
         tools:text="8.1/10" />
 
     <ImageButton
@@ -65,8 +66,9 @@
         android:layout_below="@+id/user_rating"
         android:layout_toEndOf="@id/movie_poster"
         android:layout_toRightOf="@id/movie_poster"
-        android:contentDescription="@string/mark_as_favorite"
         android:background="@null"
+        android:padding="4dp"
+        android:contentDescription="@string/mark_as_favorite"
         android:src="@drawable/image_list_favorite" />
 
     <TextView
@@ -75,16 +77,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_poster"
         android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." />
 
     <TextView
         android:id="@+id/favorite_action_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/mark_as_favorite"
-        android:layout_marginBottom="13dp"
         android:layout_alignBottom="@+id/favorite_button"
-        android:layout_alignRight="@+id/release_date"
-        android:layout_alignEnd="@+id/release_date" />
+        android:layout_marginBottom="13dp"
+        android:layout_toEndOf="@+id/favorite_button"
+        android:layout_toRightOf="@+id/favorite_button"
+        android:paddingLeft="8dp"
+        tools:text="@string/mark_as_favorite" />
 
 </RelativeLayout>

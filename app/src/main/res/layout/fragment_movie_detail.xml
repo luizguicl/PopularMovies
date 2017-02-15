@@ -14,11 +14,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <include
-            layout="@layout/toolbar_main"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         android:divider="@null"
         android:dividerHeight="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>
 
 

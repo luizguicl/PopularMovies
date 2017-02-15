@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
 
     <string name="content_authority">com.luizguilherme.popularmovies</string>
 
@@ -27,6 +27,11 @@
     <string name="mark_favorite_sucess_message">Marked as favorite!</string>
     <string name="unmark_favorite_sucess_message">Unmarked as favorite!</string>
     <string name="share_trailer">Share Trailer</string>
+    <string name="release_date">Release Date:</string>
+
+    <!-- Vote average format -->
+    <string name="format_vote_average"><xliff:g id="average">%s</xliff:g>/<xliff:g id="total">%1.0f</xliff:g></string>
+
 
 
 </resources>

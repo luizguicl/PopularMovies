@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -8,10 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+    <style name="AppTheme.ActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextStyle">@style/AppTheme.ActionBarTheme.TitleTextStyle</item>
     </style>
+
+    <style name="AppTheme.ActionBarTheme.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-medium</item>
+        <!-- Support library compatibility -->
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

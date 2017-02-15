@@ -58,11 +58,14 @@ public class OverviewViewHolder extends MovieDetailTypeViewHolder {
         originalTitle.setText(movie.getOriginalTitle());
         String formattedDate = String.format("(%s)", movie.getReleaseDate());
         releaseDate.setText(formattedDate);
-        userRating.setText(String.format(new Locale(context.getString(R.string.languague), context.getString(R.string.country)), "%.2f", movie.getVoteAverage()));
+        String formatedVote = String.format(new Locale(context.getString(R.string.languague), context.getString(R.string.country)), "%.1f", movie.getVoteAverage());
+        userRating.setText(context.getString(R.string.format_vote_average, formatedVote, 10f));
         overview.setText(movie.getOverview());
 
         boolean isFavoriteMovie = checkIfMovieFavorite(movie.getId());
         setupIsFavoriteButton(favoriteImgButton, favoriteAction, isFavoriteMovie);
+
+        bindActions(movie);
 
     }
 

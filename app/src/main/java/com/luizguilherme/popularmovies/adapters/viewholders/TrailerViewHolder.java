@@ -25,6 +25,8 @@ public class TrailerViewHolder extends MovieDetailTypeViewHolder {
     public void bind(MovieDetailType movieDetailType) {
         Trailer trailer = (Trailer) movieDetailType;
         trailerName.setText(trailer.getName());
+
+        bindActions(trailer);
     }
 
     @Override

@@ -8,6 +8,7 @@
     <string name="pref_label_sort_order">Ordem de classificação</string>
     <string name="sort_oder_label_popular">Popular</string>
     <string name="sort_oder_label_top_rated">Mais votado</string>
+    <string name="sort_oder_label_favorite">Favorito</string>
     <string name="settings">Configurações</string>
     <string name="title_activity_settings">Configurações</string>
     <string name="title_activity_movie_detail">Detalhes do filme</string>
@@ -18,5 +19,6 @@
     <string name="mark_favorite_sucess_message">Marcado como favorito!</string>
     <string name="unmark_favorite_sucess_message">Desmarcado como favorito!</string>
     <string name="share_trailer">Compartilhar Trailer</string>
+    <string name="release_date">Release Date:</string>
 
 </resources>

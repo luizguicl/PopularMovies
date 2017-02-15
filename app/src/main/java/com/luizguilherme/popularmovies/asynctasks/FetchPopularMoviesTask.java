@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.luizguilherme.popularmovies.Constants.APPID_PARAM;
@@ -72,12 +71,12 @@ public class FetchPopularMoviesTask extends AsyncTask<Void, Void, List<Movie>> {
                 int indexPosterPath = movieCursor.getColumnIndex(MovieEntry.COLUMN_POSTER_PATH);
                 String posterPath = movieCursor.getString(indexPosterPath);
                 int indexReleaseDate = movieCursor.getColumnIndex(MovieEntry.COLUMN_RELEASE_DATE);
-                int releaseDate = movieCursor.getInt(indexReleaseDate);
+                String releaseDate = movieCursor.getString(indexReleaseDate);
                 int indexVoteAverage = movieCursor.getColumnIndex(MovieEntry.COLUMN_VOTE_AVERAGE);
                 double voteAverage = movieCursor.getDouble(indexVoteAverage);
 
 
-                Movie movie = new Movie(movieId, originalTitle, posterPath, overview, voteAverage, new Date(releaseDate).toString());
+                Movie movie = new Movie(movieId, originalTitle, posterPath, overview, voteAverage, releaseDate);
 
                 favoriteMovies.add(movie);
 

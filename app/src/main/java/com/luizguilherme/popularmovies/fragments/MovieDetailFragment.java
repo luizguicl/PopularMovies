@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.luizguilherme.popularmovies.AndroidUtils;
 import com.luizguilherme.popularmovies.Constants;
 import com.luizguilherme.popularmovies.R;
 import com.luizguilherme.popularmovies.adapters.MovieDetailAdapter;
 import com.luizguilherme.popularmovies.adapters.MovieDetailType;
 import com.luizguilherme.popularmovies.asynctasks.FetchReviewsByMovieTask;
 import com.luizguilherme.popularmovies.asynctasks.FetchTrailersByMovieTask;
-import com.luizguilherme.popularmovies.AndroidUtils;
 import com.luizguilherme.popularmovies.models.Movie;
 import com.luizguilherme.popularmovies.models.Trailer;
 
@@ -75,10 +74,6 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
         unbinder = ButterKnife.bind(this, rootView);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        supportActionBar.setDisplayShowHomeEnabled(true);
 
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(Constants.EXTRA_MOVIE)) {
@@ -131,6 +126,7 @@ public class MovieDetailFragment extends Fragment implements FetchTrailersByMovi
     private void setShareIntent(Intent shareIntent) {
         if (shareActionProvider != null) {
             shareActionProvider.setShareIntent(shareIntent);
+            getActivity().invalidateOptionsMenu();
         }
     }
 

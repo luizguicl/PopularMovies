@@ -17,7 +17,6 @@
             layout="@layout/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"/>
     </android.support.design.widget.AppBarLayout>
 

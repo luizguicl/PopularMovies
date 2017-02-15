@@ -12,9 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:background="@null"
-
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_play_circle_filled_black_24dp" />
 
     <TextView
